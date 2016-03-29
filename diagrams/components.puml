@@ -1,0 +1,23 @@
+@startuml
+
+
+database DB
+
+HTTP_REQUEST -- [GUI]
+
+[GUI] --> [Application]
+[Application] --> [User]
+[Application] --> [Controller]
+[Controller] --> [View]
+
+[View] - HTTP_RESPONSE
+
+[User] - UserIdentity
+
+[ActiveRecord] --> ActiveRecordInterface
+[Controller] -left-> [ActiveRecord]
+
+
+ActiveRecordInterface -- [QueryBuilder]
+[QueryBuilder] --> DB
+@enduml

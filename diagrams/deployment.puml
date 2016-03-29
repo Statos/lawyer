@@ -1,0 +1,29 @@
+@startuml
+
+database DB
+node WebServer
+node Активный_концентратор
+node PC_Юрист
+node PC_Удаленный_юрист1
+node PC_Удаленный_юрист2
+node PC_Главный_специалист
+node Принтер
+
+node Internet <<shared>>
+
+skinparam node {
+	backgroundColor<<shared>> #0000FF
+}
+
+DB -- WebServer
+WebServer -- Активный_концентратор
+Активный_концентратор -- PC_Юрист
+Активный_концентратор -- PC_Главный_специалист
+Активный_концентратор - Принтер
+Активный_концентратор -left- Internet
+Internet -up- PC_Удаленный_юрист1
+Internet -- PC_Удаленный_юрист2
+
+
+
+@enduml
