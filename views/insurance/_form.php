@@ -1,7 +1,7 @@
 <?php
 
 use app\models\Users;
-use yii\helpers\Html;
+use app\components\basic\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -13,13 +13,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->dropdownList(Users::getDropdownList()) ?>
+    <?= $form->field($model, 'user_id')->dropdownList(Users::getDropdownList([Users::ROLE_LAWYER])) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'create_at')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

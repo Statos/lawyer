@@ -65,6 +65,8 @@ class UsersController extends BaseController
     public function actionCreate()
     {
         $model = new Users();
+        $model->set_auth = true;
+        $model->scenario = 'create';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if(Yii::$app->user->isGuest){

@@ -2,6 +2,7 @@
 
 namespace app\models\search;
 
+use app\controllers\InsuranceController;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -63,6 +64,10 @@ class SearchInsurance extends Insurance
             'user_id' => $this->user_id,
             'create_at' => $this->create_at,
         ]);
+
+        if(!Yii::$app->user->can(InsuranceController::PERMISSION_UPDATE_ALL)){
+            $query->andWhere(['user_id' => Yii::$app->user->id]);
+        }
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);

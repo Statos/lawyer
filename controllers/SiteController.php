@@ -2,19 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Categories;
-use app\models\Products;
+use app\components\BaseController;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
-use yii\web\NotFoundHttpException;
 
-class SiteController extends Controller
+class SiteController extends BaseController
 {
+    public $allowAll = true;
+
     public function behaviors()
     {
         return [
@@ -67,6 +64,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $model->getUser()->updateOnline();
             return $this->goBack();
         }
         return $this->render('login', [

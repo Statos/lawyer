@@ -1,14 +1,14 @@
 <?php
 
-use yii\helpers\Html;
+use app\components\basic\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Insurance */
 
-$this->title = 'Update Insurance: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Insurances', 'url' => ['index']];
+$this->title = 'Страховые случай: ' . ' ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Страховые случаи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Обновление';
 ?>
 <div class="insurance-update">
 

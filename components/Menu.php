@@ -1,6 +1,6 @@
 <?php
 
-namespace app\helpers;
+namespace app\components;
 
 use Yii;
 use yii\helpers\BaseInflector;
@@ -46,7 +46,8 @@ class Menu {
                 . Html::endForm()
                 . '</li>';
         } else {
-            $data[] =    ['label' => 'Вход', 'url' => ['/site/login'], 'visible' => true];
+            $data[] = ['label' => 'Регистрация', 'url' => ['/users/create'], 'visible' => true];
+            $data[] = ['label' => 'Вход', 'url' => ['/site/login'], 'visible' => true];
         }
 
         return $data;

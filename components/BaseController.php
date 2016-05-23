@@ -12,7 +12,7 @@ use yii\web\Controller;
  */
 class BaseController extends Controller
 {
-    const ALLOW_ALL = false;
+    public $allowAll = false;
 
     public function setFlash($key, $data = [])
     {
@@ -34,11 +34,13 @@ class BaseController extends Controller
         /** @var InlineAction $action */
         if (!parent::beforeAction($action)) return false;
 
+        if (!Yii::$app->user->isGuest) Yii::$app->user->identity->updateOnline();
+
         $reflectionClass = new \ReflectionClass($this);
         $className = str_replace('Controller', '', $reflectionClass->getShortName());
         $permission = BaseInflector::camelize($this->module->id . '_' . $className . '_' . $action->id);
         //var_dump($permission);exit;
-        if (self::ALLOW_ALL || Yii::$app->user->can($permission)) return true;
+        if ($this->allowAll || Yii::$app->user->can($permission)) return true;
 
         $errorMessage = 'Доступ запрещен';
         if(YII_DEBUG) {

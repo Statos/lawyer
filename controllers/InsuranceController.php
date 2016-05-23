@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class InsuranceController extends BaseController
 {
+    const PERMISSION_UPDATE_ALL = 'BasicInsuranceUpdateAll';
     /**
      * @inheritdoc
      */
@@ -115,7 +116,12 @@ class InsuranceController extends BaseController
      */
     protected function findModel($id)
     {
-        if (($model = Insurance::findOne($id)) !== null) {
+        if(Yii::$app->user->can(self::PERMISSION_UPDATE_ALL)){
+            $model = Insurance::findOne($id);
+        } else {
+            $model = Insurance::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
+        }
+        if ($model !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

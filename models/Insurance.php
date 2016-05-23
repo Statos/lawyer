@@ -51,6 +51,7 @@ class Insurance extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'ID Пользователя',
+            'userName' => 'Приклепленный пользователь',
             'name' => 'Название',
             'description' => 'Описание',
             'create_at' => 'Дата создания',

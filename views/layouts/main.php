@@ -36,7 +36,7 @@ AppAsset::register($this);
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => \app\helpers\Menu::getItems(),
+        'items' => \app\components\Menu::getItems(),
     ]);
     NavBar::end();
     ?>

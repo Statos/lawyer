@@ -66,7 +66,27 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            if ($this->isActive()) {
+                return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            }
+        }
+        return false;
+    }
+
+    public function isActive()
+    {
+        switch($this->getUser()->status){
+            case Users::STATUS_ACTIVE:
+                return true;
+            case Users::STATUS_NEW:
+                $this->addError('password', 'Пользователь еще не активирован');
+                break;
+            case Users::STATUS_DISABLED:
+                $this->addError('password', 'Пользователь заблокирован');
+                break;
+            default:
+                $this->addError('password', 'Системная ошибка');
+                break;
         }
         return false;
     }
@@ -74,7 +94,7 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return \app\models\Users|null
      */
     public function getUser()
     {

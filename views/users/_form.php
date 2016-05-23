@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use app\components\basic\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -14,11 +14,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->errorSummary($model); ?>
 
+    <?php if (Yii::$app->user->can('BasicUsersUpdate')): ?>
+    <?= $form->field($model, 'status')->dropDownList($model::getStatuses()) ?>
+    <?php endif; ?>
+
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
+    <?php if ($model->isNewRecord): ?>
     <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'repeat_password')->passwordInput(['maxlength' => true]) ?>
+    <?php endif; ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
