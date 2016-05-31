@@ -40,7 +40,6 @@ class Work extends \yii\db\ActiveRecord
             [['create_at', 'done_at', 'max_at'], 'safe'],
             [['name'], 'string', 'max' => 128],
             [['insurance_id'], 'exist', 'skipOnError' => true, 'targetClass' => Insurance::className(), 'targetAttribute' => ['insurance_id' => 'id']],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => DataAttachments::className(), 'targetAttribute' => ['id' => 'model_id']],
         ];
     }
 
