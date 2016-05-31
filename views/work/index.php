@@ -24,8 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'insurance_id',
             'create_at',
-            'done_at',
             'max_at',
+            'done_at',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'width:70px']

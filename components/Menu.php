@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use app\models\Notifications;
 use Yii;
 use yii\helpers\BaseInflector;
 use yii\helpers\Html;
@@ -18,16 +19,21 @@ class Menu {
     {
         $data = self::_items();
         foreach($data as &$menu){
-            $menu = self::ALLOW_ALL ? $menu : self::checkMenuItemsRecursive($menu);
+            $menu = self::ALLOW_ALL ? $menu : self::checkMenuItems($menu);
         }
         return $data;
     }
 
-    public static function _items()
+    private static function _items()
     {
         $data = [];
 
-        $data[] = ['label' => 'Главная', 'url' => ['/site/index'], 'visible' => true];
+        $data[] = [
+            'label' => self::getUserAvatar() . 'Профиль',
+            'encode' => false,
+            'url' => ['/users/cabinet'],
+            'options' => ['class' => 'li-profile'],
+        ];
         $data[] = ['label' => 'О нас', 'url' => ['/site/about']];
         $data[] = ['label' => 'Пользователи', 'url' => ['/users/index']];
         $data[] = ['label' => 'Роли', 'url' => ['/admin']];
@@ -35,6 +41,8 @@ class Menu {
         $data[] = ['label' => 'Дела', 'url' => ['/work/index']];
         $data[] = ['label' => 'Законы', 'url' => ['/law/index']];
         $data[] = ['label' => 'Страховые случаи', 'url' => ['/insurance/index']];
+
+        $data[] = ['label' => 'Уведомления' . self::getNotifyBadge(), 'encode' => false, 'url' => ['/notifications/index']];
 
         if(!Yii::$app->user->isGuest) {
             $data[] = '<li>'
@@ -53,7 +61,28 @@ class Menu {
         return $data;
     }
 
-    private static function checkMenuItemsRecursive($menu)
+    public static function getUserAvatar()
+    {
+        /** @var \app\models\Users $userModel */
+        if(!Yii::$app->user->isGuest) {
+            $userModel = Yii::$app->user->identity;
+            return Html::img($userModel->avatarUrl, ['class' => 'img-circle nav-avatar']);
+        }
+        return '';
+    }
+
+    public static function getNotifyBadge()
+    {
+        if(!Yii::$app->user->isGuest){
+            $count = Notifications::getCountUnreadNotify(Yii::$app->user->id);
+            if($count){
+                return '<span class="badge">' . $count . '</span>';
+            }
+        }
+        return '';
+    }
+
+    private static function checkMenuItems($menu)
     {
         if(is_string($menu)){
             return $menu;

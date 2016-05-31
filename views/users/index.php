@@ -21,6 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             'id',
+            [
+                'label' => 'Аватар',
+                'format' => 'html',
+                'value' => function($model){ return Html::img($model->avatarUrl, ['class' => 'img-circle index-avatar']);  },
+            ],
             'status',
             'username',
             'email:email',

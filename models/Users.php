@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\modules\upload\models\Attachments;
 use Exception;
 use Yii;
 use yii\db\Expression;
@@ -23,7 +24,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property DataComments[] $dataComments
  * @property Insurance[] $insurances
- * @property DataAttachments $avatar
+ * @property Attachments $avatar
  */
 class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -52,7 +53,8 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'email', 'phone', 'fio'], 'required'],
+            [['username', 'email', 'phone', 'fio'], 'required', 'on' => 'default'],
+            [['phone', 'fio'], 'required', 'on' => 'profile'],
             [['password'], 'required', 'on' => 'create'],
             [['status', 'fio'], 'string'],
             ['repeat_password', 'compare', 'compareAttribute'=>'password'],
@@ -60,7 +62,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['avatar_id'], 'integer'],
             [['create_at', 'online_at'], 'safe'],
             [['username', 'password', 'email', 'phone'], 'string', 'max' => 64],
-            [['avatar_id'], 'exist', 'skipOnError' => true, 'targetClass' => DataAttachments::className(), 'targetAttribute' => ['avatar_id' => 'id']],
+            [['avatar_id'], 'exist', 'skipOnError' => true, 'targetClass' => Attachments::className(), 'targetAttribute' => ['avatar_id' => 'id']],
         ];
     }
 
@@ -172,7 +174,12 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getAvatar()
     {
-        return $this->hasOne(DataAttachments::className(), ['id' => 'avatar_id']);
+        return $this->hasOne(Attachments::className(), ['id' => 'avatar_id']);
+    }
+
+    public function getAvatarUrl()
+    {
+        return $this->avatar ? $this->avatar->getTitleUrl() : '/images/avatar.png';
     }
 
     public static function getRoles()
@@ -193,13 +200,18 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
-    public static function getDropdownList($types = [])
+    public static function getListByRoles($roles = [])
     {
-        $types = array_intersect($types, array_values(self::getRoles()));
+        $roles = array_intersect($roles, array_values(self::getRoles()));
         $users = self::find()
             ->innerJoin('auth_assignment', self::tableName() . '.id = ' . 'auth_assignment.user_id')
             ->where(['status' => [self::STATUS_NEW, self::STATUS_ACTIVE]])
-            ->andWhere(['auth_assignment.item_name' => $types]);
+            ->andWhere(['auth_assignment.item_name' => $roles]);
         return ArrayHelper::map($users->all(), 'id', 'username');
+    }
+
+    public static function getListAll()
+    {
+        return self::getListByRoles(array_values(self::getRoles()));
     }
 }

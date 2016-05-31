@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\BaseController;
+use app\components\events\EventLogin;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -65,7 +66,9 @@ class SiteController extends BaseController
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $model->getUser()->updateOnline();
-            return $this->goBack();
+            (new EventLogin($model->getUser()->id, $model->username))->trigger();
+            //return $this->goBack();
+            return $this->render('about');
         }
         return $this->render('login', [
             'model' => $model,

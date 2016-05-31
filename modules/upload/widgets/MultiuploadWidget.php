@@ -97,28 +97,31 @@ class MultiuploadWidget extends UploadWidget
                     $('#" . $this->options['progress_bar']['id'] . " .progress-bar').css('width','0%');
                 },
                 done: function (e, data) {
-                    var img = data.result[0].attachment;
+                    var file = data.result[0].attachment;
                     if(data.result[0].error){
                         alert(data.result[0].error);
                         return;
                     }
 
                     var input= $('#".$this->options['id']."');
-                    var img_ids = input.val().split(',');
-                    if(img_ids[0] == '')
-                        img_ids.splice(0,1);
-                    img_ids.push(JSON.stringify(data.result[0].id));
-                    input.val(img_ids.join(','));
-
-                    if( img.type.split('/')[0] == 'application')
-                        var img_src = '" . self::APPLICATION_IMAGE . "';
-                    else
-                        var img_src = img.titleUrl ? img.titleUrl : img.url;
+                    var file_ids = input.val().split(',');
+                    if(file_ids[0] == '')
+                        file_ids.splice(0,1);
+                    file_ids.push(JSON.stringify(data.result[0].id));
+                    input.val(file_ids.join(','));
 
                     var delete_button = '<div class=\"delete-button\" onclick=\"remove_attachment(' + data.result[0].id + ');\">&times</div>';
-                    var new_img = '<img src=\"' + img_src + '\" width=\"" . $this->options['width_img'] . "\">';
-                    var new_img_block = '<div id=\"upload-img-' + data.result[0].id + '\" class=\"upload-img\" style=\"display:none\">' + delete_button + new_img + '</div>';
-                    $('#" . $this->options['img_id'] . "').append(new_img_block);
+                    if ( data.result[0].type == '" . Attachments::TYPE_IMAGES . "'){
+                        var img_src = img.titleUrl ? img.titleUrl : img.url;
+                        var new_img = '<img src=\"' + img_src + '\" width=\"" . $this->options['width_img'] . "\">';
+                        var new_block = '<div id=\"upload-img-' + data.result[0].id + '\" class=\"upload-img\" style=\"display:none\">' + delete_button + new_img + '</div>';
+                    } else if ( data.result[0].type == '" . Attachments::TYPE_DOCUMENTS . "'){
+                        var img_src = '/images/text-file-icon.png';
+                        var new_doc = '<img src=\"' + img_src + '\" width=\"" . $this->options['width_img'] . "\">';
+                        var new_block = '<div id=\"upload-img-' + data.result[0].id + '\" class=\"upload-img\" style=\"display:none\">' + delete_button + new_doc + '</div>';
+                    }
+
+                    $('#" . $this->options['img_id'] . "').append(new_block);
                     $('#" . $this->options['img_id'] . " #upload-img-' + data.result[0].id).show(400);
                 },
                 fail: function (e, data) {

@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use app\components\basic\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'create_at',
 
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'app\components\basic\ActionColumn',
                 'contentOptions' => ['style' => 'width:70px']
             ],
         ],

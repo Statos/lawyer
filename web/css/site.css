@@ -172,3 +172,20 @@ a.desc:after {
 .navbar-nav form{
     padding-top: 8px;
 }
+
+.navbar img.nav-avatar{
+  height: 50px;
+}
+
+.navbar li.li-profile a{
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.users-view img.view-avatar{
+  width: 100%;
+}
+
+.users-index img.index-avatar{
+  height: 50px;
+}

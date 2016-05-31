@@ -61,7 +61,7 @@ class AvatarWidget extends UploadWidget
 
 		$jsCode = "
 			bind_on_change_input_file('#" . $this->attribute . "', {
-				select_area_width: 400,
+				select_area_width: 300,
 				select_area_height: 300,
 			});
 			

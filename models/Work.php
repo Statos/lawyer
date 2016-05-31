@@ -71,7 +71,7 @@ class Work extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getAttachments()
     {
         return $this->hasOne(DataAttachments::className(), ['model_id' => 'id']);
     }

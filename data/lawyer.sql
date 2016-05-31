@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 29 2016 г., 19:02
+-- Время создания: Май 31 2016 г., 12:43
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -37,9 +37,16 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('administrator', '11', 1450805099),
-('chief', '9', 1450805097),
-('lawyer', '10', 1450805098);
+('administrator', '30', 1464012815),
+('chief', '26', 1464012812),
+('lawyer', '27', 1464012813),
+('lawyer', '28', 1464012814),
+('lawyer', '29', 1464012814),
+('lawyer', '32', 1464013727),
+('lawyer', '33', 1464331690),
+('lawyer', '34', 1464331947),
+('lawyer', '35', 1464331996),
+('lawyer', '36', 1464332171);
 
 -- --------------------------------------------------------
 
@@ -63,27 +70,33 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('administrator', 1, NULL, NULL, NULL, 1450803658, 1450803658),
-('BasicAdmin', 2, 'Can manage roles', NULL, NULL, 1450804807, 1450804807),
-('BasicInsuranceCreate', 2, 'Can create Work', NULL, NULL, 1459267424, 1459267424),
-('BasicInsuranceDelete', 2, 'Can delete Work', NULL, NULL, 1459267424, 1459267424),
-('BasicInsuranceIndex', 2, 'Can view Work list', NULL, NULL, 1459267424, 1459267424),
-('BasicInsuranceUpdate', 2, 'Can update Work', NULL, NULL, 1459267424, 1459267424),
-('BasicInsuranceView', 2, 'Can view Work', NULL, NULL, 1459267424, 1459267424),
-('BasicLawCreate', 2, 'Can create Law', NULL, NULL, 1450804807, 1450804807),
-('BasicLawDelete', 2, 'Can delete Law', NULL, NULL, 1450804808, 1450804808),
-('BasicLawIndex', 2, 'Can view Law list', NULL, NULL, 1450804807, 1450804807),
-('BasicLawUpdate', 2, 'Can update Law', NULL, NULL, 1450804808, 1450804808),
-('BasicLawView', 2, 'Can view Law', NULL, NULL, 1450804807, 1450804807),
-('BasicUsersCreate', 2, 'Can create/registration user', NULL, NULL, 1450804807, 1450804807),
-('BasicUsersDelete', 2, 'Can delete user', NULL, NULL, 1450804807, 1450804807),
-('BasicUsersIndex', 2, 'Can view users list', NULL, NULL, 1450804807, 1450804807),
-('BasicUsersUpdate', 2, 'Can update user+password', NULL, NULL, 1450804807, 1450804807),
-('BasicUsersView', 2, 'Can view user', NULL, NULL, 1450804807, 1450804807),
-('BasicWorkCreate', 2, 'Can create Work', NULL, NULL, 1450804808, 1450804808),
-('BasicWorkDelete', 2, 'Can delete Work', NULL, NULL, 1450804808, 1450804808),
-('BasicWorkIndex', 2, 'Can view Work list', NULL, NULL, 1450804808, 1450804808),
-('BasicWorkUpdate', 2, 'Can update Work', NULL, NULL, 1450804808, 1450804808),
-('BasicWorkView', 2, 'Can view Work', NULL, NULL, 1450804808, 1450804808),
+('BasicAdmin', 2, 'Can manage roles', NULL, NULL, 1464010455, 1464010455),
+('BasicInsuranceCreate', 2, 'Can create Insurance', NULL, NULL, 1464010457, 1464010457),
+('BasicInsuranceDelete', 2, 'Can delete Insurance', NULL, NULL, 1464010457, 1464010457),
+('BasicInsuranceIndex', 2, 'Can view Insurance list', NULL, NULL, 1464010457, 1464010457),
+('BasicInsuranceUpdate', 2, 'Can update Insurance', NULL, NULL, 1464010457, 1464010457),
+('BasicInsuranceUpdateAll', 2, 'Can update Insurance', NULL, NULL, 1464010457, 1464010457),
+('BasicInsuranceView', 2, 'Can view Insurance', NULL, NULL, 1464010457, 1464010457),
+('BasicLawCreate', 2, 'Can create Law', NULL, NULL, 1464010456, 1464010456),
+('BasicLawDelete', 2, 'Can delete Law', NULL, NULL, 1464010456, 1464010456),
+('BasicLawIndex', 2, 'Can view Law list', NULL, NULL, 1464010456, 1464010456),
+('BasicLawUpdate', 2, 'Can update Law', NULL, NULL, 1464010456, 1464010456),
+('BasicLawView', 2, 'Can view Law', NULL, NULL, 1464010456, 1464010456),
+('BasicNotificationsCreate', 2, 'Can create Notifications', NULL, NULL, 1464279599, 1464279599),
+('BasicNotificationsIndex', 2, 'Can view Notifications list', NULL, NULL, 1464279598, 1464279598),
+('BasicNotificationsIndexAll', 2, 'Can view Notifications all list', NULL, NULL, 1464279598, 1464279598),
+('BasicNotificationsView', 2, 'Can view Notifications', NULL, NULL, 1464279598, 1464279598),
+('BasicUsersCabinet', 2, 'Can update profile', NULL, NULL, 1464516196, 1464516196),
+('BasicUsersCreate', 2, 'Can create/registration user', NULL, NULL, 1464010456, 1464010456),
+('BasicUsersDelete', 2, 'Can delete user', NULL, NULL, 1464010456, 1464010456),
+('BasicUsersIndex', 2, 'Can view users list', NULL, NULL, 1464010455, 1464010455),
+('BasicUsersUpdate', 2, 'Can update user+password', NULL, NULL, 1464010456, 1464010456),
+('BasicUsersView', 2, 'Can view user', NULL, NULL, 1464010456, 1464010456),
+('BasicWorkCreate', 2, 'Can create Work', NULL, NULL, 1464010456, 1464010456),
+('BasicWorkDelete', 2, 'Can delete Work', NULL, NULL, 1464010456, 1464010456),
+('BasicWorkIndex', 2, 'Can view Work list', NULL, NULL, 1464010456, 1464010456),
+('BasicWorkUpdate', 2, 'Can update Work', NULL, NULL, 1464010456, 1464010456),
+('BasicWorkView', 2, 'Can view Work', NULL, NULL, 1464010456, 1464010456),
 ('chief', 1, NULL, NULL, NULL, 1450803658, 1450803658),
 ('guest', 1, NULL, NULL, NULL, 1450803658, 1450803658),
 ('lawyer', 1, NULL, NULL, NULL, 1450803658, 1450803658);
@@ -108,19 +121,32 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('chief', 'BasicInsuranceCreate'),
 ('chief', 'BasicInsuranceDelete'),
 ('chief', 'BasicInsuranceIndex'),
+('lawyer', 'BasicInsuranceIndex'),
 ('chief', 'BasicInsuranceUpdate'),
+('lawyer', 'BasicInsuranceUpdate'),
+('chief', 'BasicInsuranceUpdateAll'),
 ('chief', 'BasicInsuranceView'),
+('lawyer', 'BasicInsuranceView'),
 ('chief', 'BasicLawCreate'),
-('lawyer', 'BasicLawCreate'),
 ('chief', 'BasicLawDelete'),
-('lawyer', 'BasicLawDelete'),
 ('chief', 'BasicLawIndex'),
 ('lawyer', 'BasicLawIndex'),
 ('chief', 'BasicLawUpdate'),
-('lawyer', 'BasicLawUpdate'),
 ('chief', 'BasicLawView'),
 ('lawyer', 'BasicLawView'),
+('administrator', 'BasicNotificationsCreate'),
+('administrator', 'BasicNotificationsIndex'),
+('chief', 'BasicNotificationsIndex'),
+('lawyer', 'BasicNotificationsIndex'),
+('administrator', 'BasicNotificationsIndexAll'),
+('administrator', 'BasicNotificationsView'),
+('chief', 'BasicNotificationsView'),
+('lawyer', 'BasicNotificationsView'),
+('administrator', 'BasicUsersCabinet'),
+('chief', 'BasicUsersCabinet'),
+('lawyer', 'BasicUsersCabinet'),
 ('administrator', 'BasicUsersCreate'),
+('chief', 'BasicUsersCreate'),
 ('guest', 'BasicUsersCreate'),
 ('administrator', 'BasicUsersDelete'),
 ('administrator', 'BasicUsersIndex'),
@@ -161,7 +187,18 @@ CREATE TABLE IF NOT EXISTS `data_attachments` (
   `default` int(11) DEFAULT '0' COMMENT 'Для определения логотипа у News и Infosys',
   `attachment` text NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Attachments';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='Attachments';
+
+--
+-- Дамп данных таблицы `data_attachments`
+--
+
+INSERT INTO `data_attachments` (`id`, `model_class`, `model_id`, `type`, `default`, `attachment`, `created`) VALUES
+(1, 'Users', NULL, '', 0, '{"name":"xiVFtlaoInw.jpg","size":53024,"type":"image\\/jpeg","url":"\\/uploads\\/Users\\/xiVFtlaoInw.jpg","deleteUrl":"http:\\/\\/lawyer:8181\\/?file=xiVFtlaoInw.jpg","deleteType":"DELETE"}', '2016-05-29 10:21:41'),
+(2, 'Users', NULL, '', 0, '{"name":"_ZYimeOO1M0.jpg","size":39997,"type":"image\\/jpeg","url":"\\/uploads\\/Users\\/_ZYimeOO1M0.jpg","deleteUrl":"http:\\/\\/lawyer:8181\\/?file=_ZYimeOO1M0.jpg","deleteType":"DELETE"}', '2016-05-29 10:23:08'),
+(3, 'Users', NULL, '', 0, '{"name":"80N0gFRIHco.jpg","size":96552,"type":"image\\/jpeg","url":"\\/uploads\\/Users\\/80N0gFRIHco.jpg","deleteUrl":"http:\\/\\/lawyer:8181\\/?file=80N0gFRIHco.jpg","deleteType":"DELETE"}', '2016-05-29 10:37:14'),
+(22, 'Law', 2, 'document', 0, '{"name":"1 (10).txt","size":3,"type":"text\\/plain","url":"\\/uploads\\/Law\\/1%20%2810%29.txt","deleteUrl":"http:\\/\\/lawyer:8181\\/?file=1%20%2810%29.txt","deleteType":"DELETE"}', '2016-05-29 13:49:17'),
+(23, 'Users', NULL, 'image', 0, '{"name":"avril-lavigne-365-04.jpg","size":433955,"type":"image\\/jpeg","url":"\\/uploads\\/Users\\/avril-lavigne-365-04.jpg","deleteUrl":"http:\\/\\/lawyer:8181\\/?file=avril-lavigne-365-04.jpg","deleteType":"DELETE"}', '2016-05-30 13:02:59');
 
 -- --------------------------------------------------------
 
@@ -210,14 +247,7 @@ CREATE TABLE IF NOT EXISTS `law` (
   `description` text NOT NULL,
   `publicate_at` date NOT NULL,
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `law`
---
-
-INSERT INTO `law` (`id`, `number`, `name`, `description`, `publicate_at`, `create_at`) VALUES
-(2, 'Статья 272.', 'Неправомерный доступ к компьютерной информации', '1. Неправомерный доступ к охраняемой законом компьютерной информации, если это деяние повлекло уничтожение, блокирование, модификацию либо копирование компьютерной информации, -\r\nнаказывается штрафом в размере до двухсот тысяч рублей или в размере заработной платы или иного дохода осужденного за период до восемнадцати месяцев, либо исправительными работами на срок до одного года, либо ограничением свободы на срок до двух лет, либо принудительными работами на срок до двух лет, либо лишением свободы на тот же срок.\r\n2. То же деяние, причинившее крупный ущерб или совершенное из корыстной заинтересованности, -\r\nнаказывается штрафом в размере от ста тысяч до трехсот тысяч рублей или в размере заработной платы или иного дохода осужденного за период от одного года до двух лет, либо исправительными работами на срок от одного года до двух лет, либо ограничением свободы на срок до четырех лет, либо принудительными работами на срок до четырех лет, либо лишением свободы на тот же срок.\r\n(в ред. Федерального закона от 28.06.2014 N 195-ФЗ)\r\n(см. текст в предыдущей редакции)\r\n3. Деяния, предусмотренные частями первой или второй настоящей статьи, совершенные группой лиц по предварительному сговору или организованной группой либо лицом с использованием своего служебного положения, -\r\nнаказываются штрафом в размере до пятисот тысяч рублей или в размере заработной платы или иного дохода осужденного за период до трех лет с лишением права занимать определенные должности или заниматься определенной деятельностью на срок до трех лет, либо ограничением свободы на срок до четырех лет, либо принудительными работами на срок до пяти лет, либо лишением свободы на тот же срок.\r\n4. Деяния, предусмотренные частями первой, второй или третьей настоящей статьи, если они повлекли тяжкие последствия или создали угрозу их наступления, -\r\nнаказываются лишением свободы на срок до семи лет.\r\nПримечания. 1. Под компьютерной информацией понимаются сведения (сообщения, данные), представленные в форме электрических сигналов, независимо от средств их хранения, обработки и передачи.\r\n2. Крупным ущербом в статьях настоящей главы признается ущерб, сумма которого превышает один миллион рублей.', '2015-12-30', '2016-03-29 15:17:25');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -238,9 +268,41 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m000000_000000_base', 1450801286),
 ('m140506_102106_rbac_init', 1450801293),
 ('m151215_173740_create_roles', 1450803658),
-('m151215_173814_init_permission', 1450804808),
-('m151216_060100_add_users', 1450805099),
-('m160329_123814_update_permission', 1459267424);
+('m151215_173814_init_permission', 1464010457),
+('m151216_060100_add_users', 1464012816),
+('m160526_173814_notify_permission', 1464279599),
+('m160527_071029_new_permission', 1464516196);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `notifications`
+--
+
+CREATE TABLE IF NOT EXISTS `notifications` (
+  `id` int(10) unsigned NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `message` text NOT NULL,
+  `is_read` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `user_id`, `message`, `is_read`, `create_at`) VALUES
+(15, 30, 'Новый пользователь прошел регистрацию, login:<a href="/users/view?id=36">new</a>', 0, '2016-05-27 06:56:12'),
+(16, 26, 'Новый пользователь прошел регистрацию, login:<a href="/users/view?id=36">new</a>', 1, '2016-05-27 06:56:12'),
+(17, 30, 'Пользователь выполнил вход в систему: chief', 0, '2016-05-27 06:56:33'),
+(18, 30, 'Пользователь выполнил вход в систему: administrator', 0, '2016-05-27 07:08:37'),
+(19, 30, 'Пользователь выполнил вход в систему: chief', 0, '2016-05-27 07:23:13'),
+(20, 30, 'Пользователь выполнил вход в систему: administrator', 0, '2016-05-27 07:24:26'),
+(21, 30, 'Пользователь выполнил вход в систему: chief', 0, '2016-05-29 12:09:13'),
+(22, 30, 'Пользователь выполнил вход в систему: chief', 0, '2016-05-30 10:34:14'),
+(23, 30, 'Пользователь выполнил вход в систему: lawyer', 0, '2016-05-30 10:34:34'),
+(24, 30, 'Пользователь выполнил вход в систему: administrator', 0, '2016-05-31 06:40:34'),
+(25, 30, 'Пользователь выполнил вход в систему: chief', 0, '2016-05-31 06:46:20');
 
 -- --------------------------------------------------------
 
@@ -250,7 +312,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL,
-  `status` enum('new','active','disabled') NOT NULL,
+  `status` enum('new','active','disabled') NOT NULL DEFAULT 'new',
   `avatar_id` int(11) DEFAULT NULL,
   `username` varchar(64) NOT NULL,
   `password_hash` varchar(128) NOT NULL,
@@ -260,16 +322,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `online_at` timestamp NULL DEFAULT NULL,
   `auth_key` varchar(64) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `status`, `avatar_id`, `username`, `password_hash`, `email`, `phone`, `fio`, `create_at`, `online_at`, `auth_key`) VALUES
-(9, 'new', NULL, 'chief', '$2y$13$eYP75ze7hFl.tbyXZ2Rf7.wIDU.8IevXW9sQuM5kamO0LYDpUsjue', 'chief@test.ru', '+79001112233', 'chief', '2015-12-22 17:24:57', NULL, ''),
-(10, 'new', NULL, 'lawyer', '$2y$13$Xki19TTGYgPOjr9ZWOQGj.2ij7A.IgTmXbG8hHYJHQ2XyR/UaGC.q', 'lawyer@test.ru', '+79001112233', 'lawyer', '2015-12-22 17:24:58', NULL, ''),
-(11, 'new', NULL, 'administrator', '$2y$13$yrYw91qaIVnPrXlRA4dVhuPzR3cZaLADwj7o9EcWdQ0J3X8wsEUN6', 'administrator@test.ru', '+79001112233', 'administrator', '2015-12-22 17:24:59', NULL, '');
+(26, 'active', NULL, 'chief', '$2y$13$hasw6tIMs5HrmRECqkLU/.Hb1DrxQ2/CEyND724ItdGpLFEHcTD86', 'chief@test.ru', '+79001112233', 'chief', '2016-05-23 14:13:32', '2016-05-31 06:46:20', ''),
+(27, 'active', 23, 'lawyer', '$2y$13$.VP1oC1Zl88Jmoo1p6m5TuMuvBcG7ANqpxFzN.WSiA6GhumM731sG', 'lawyer@test.ru', '+79001112233', 'lawyer', '2016-05-23 14:13:33', '2016-05-30 13:23:34', ''),
+(28, 'active', NULL, 'lawyer2', '$2y$13$8viOkcqEB7a/Dg5lHMOscO7b2DX9TUTSMxQ7wVsYldT5K5sETPgde', 'lawyer2@test.ru', '+79001112233', 'lawyer2', '2016-05-23 14:13:34', NULL, ''),
+(29, 'active', NULL, 'lawyer3', '$2y$13$hUUDzUeTJ1XaVToPZnFuAOOBmqsTfiUA00P61ce42/qnIvX2xf1hG', 'lawyer3@test.ru', '+79001112233', 'lawyer3', '2016-05-23 14:13:34', NULL, ''),
+(30, 'active', 3, 'administrator', '$2y$13$bRuoY0hFIB8DjKV7pMLr4.hqOA/pfr5soRqaZWP1/SSw.AFNyDLXi', 'administrator@test.ru', '+79601112233', 'Администратор системы', '2016-05-23 14:13:35', '2016-05-31 06:46:14', ''),
+(36, 'new', NULL, 'new', '$2y$13$U7oI3fr0pl/3.EyeBIfZJeWpEVWWUS0q83JEXgXj6uSBs094nz9u.', '123@mail.com', '123', '123', '2016-05-27 06:56:11', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -352,6 +417,13 @@ ALTER TABLE `migration`
   ADD PRIMARY KEY (`version`);
 
 --
+-- Индексы таблицы `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_notifications_users` (`user_id`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -373,7 +445,7 @@ ALTER TABLE `work`
 -- AUTO_INCREMENT для таблицы `data_attachments`
 --
 ALTER TABLE `data_attachments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT для таблицы `data_comments`
 --
@@ -388,12 +460,17 @@ ALTER TABLE `insurance`
 -- AUTO_INCREMENT для таблицы `law`
 --
 ALTER TABLE `law`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT для таблицы `work`
 --
@@ -432,8 +509,13 @@ ALTER TABLE `data_comments`
 -- Ограничения внешнего ключа таблицы `insurance`
 --
 ALTER TABLE `insurance`
-  ADD CONSTRAINT `FK_insurance_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `insurance_ibfk_1` FOREIGN KEY (`id`) REFERENCES `data_attachments` (`model_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_insurance_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Ограничения внешнего ключа таблицы `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `FK_notifications_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Ограничения внешнего ключа таблицы `users`

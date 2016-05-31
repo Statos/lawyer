@@ -14,6 +14,15 @@ class BaseController extends Controller
 {
     public $allowAll = false;
 
+    public function init()
+    {
+        \Yii::$app->on(EventBase::EVENT_DB_CAPTURED, function(EventObject $eventObject) {
+            /** @var Catcher $catcher */
+            $catcher = \Yii::$container->get('app\components\Catcher');
+            $catcher->catchEvent($eventObject->event);
+        });
+    }
+
     public function setFlash($key, $data = [])
     {
         Yii::$app->session->setFlash($key, $data);

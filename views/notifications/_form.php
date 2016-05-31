@@ -1,23 +1,21 @@
 <?php
 
 use app\models\Users;
-use app\components\basic\Html;
+use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Insurance */
+/* @var $model app\models\Notifications */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="insurance-form">
+<div class="notifications-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->dropdownList(Users::getListByRoles([Users::ROLE_LAWYER])) ?>
+    <?= $form->field($model, 'user_id')->dropdownList(Users::getListAll()) ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'message')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\modules\upload\models\Attachments;
 use Yii;
 
 /**
@@ -15,6 +16,7 @@ use Yii;
  */
 class Law extends \yii\db\ActiveRecord
 {
+    public $attach;
     /**
      * @inheritdoc
      */
@@ -53,5 +55,16 @@ class Law extends \yii\db\ActiveRecord
     public function getSmallDescription()
     {
         return strlen($this->description) > 500 ? substr($this->description, 0, 500) . '...' : $this->description;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAttachments()
+    {
+        return $this->hasMany(Attachments::className(), [
+            'model_id' => 'id',
+            'model_class' => \yii\helpers\StringHelper::basename($this->className())
+        ]);
     }
 }

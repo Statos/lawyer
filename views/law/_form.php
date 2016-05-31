@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\upload\widgets\MultiuploadWidget;
 use kartik\date\DatePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -32,6 +33,11 @@ use yii\widgets\ActiveForm;
             ]
         ]); ?>
     </div>
+
+    <?php echo $form->field($model, 'attach')->widget(MultiuploadWidget::className(), [ 'options' => [
+        'ajax_options' => ['action' => 'comment-attachment']
+    ]]); ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

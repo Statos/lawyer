@@ -15,16 +15,16 @@ use Yii;
  * @property string $attachment
  * @property string $created
  *
- * @property DataUsers[] $dataUsers
  */
 class Attachments extends \yii\db\ActiveRecord
 {
     const TYPE_IMAGES = 'image';
-    const TYPE_DOCUMENTS = 'application';
+    const TYPE_DOCUMENTS = 'document';
     const TYPE_VIDEO = 'video';
+    const TYPE_UNDEF = 'undef';
 
     const REGEX_IMAGE = 'gif|jpe?g|png';
-    const REGEX_DOCUMENT = 'docx?|xlsx?|txt|rtf|pdf';
+    const REGEX_DOCUMENT = 'docx?|xlsx?|te?xt|rtf|pdf|plain';
     /**
      * @inheritdoc
      */
@@ -67,6 +67,7 @@ class Attachments extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
+        $this->determineType();
         $this->attachment = json_encode($this->attachment);
         return parent::beforeSave($insert);
     }
@@ -88,17 +89,10 @@ class Attachments extends \yii\db\ActiveRecord
         return '/\.(' . $types . ')$/i';
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDataUsers()
-    {
-        return $this->hasMany(DataUsers::className(), ['avatar_id' => 'id']);
-    }
-
     public function toHash(){
         return [
             'id' => $this->id,
+            'type' => $this->type,
             'attachment' => $this->attachment,
         ];
     }
@@ -128,10 +122,26 @@ class Attachments extends \yii\db\ActiveRecord
 
     public function getMimeType($id = NULL)
     {
+        if(!$this->attachment) {
+            return '';
+        }
         $data = explode('/',$this->attachment->type);
         if($id !== NULL)
             return isset($data[$id]) ? $data[$id] : false;
         return $data;
+    }
+
+    public function determineType()
+    {
+        if ($this->typeImages()) {
+            $this->type = self::TYPE_IMAGES;
+        } elseif ($this->typeDocuments()) {
+            $this->type = self::TYPE_DOCUMENTS;
+        } elseif ($this->typeVideo()) {
+            $this->type = self::TYPE_VIDEO;
+        } else {
+            $this->type = self::TYPE_UNDEF;
+        }
     }
 
     public function typeImages()
@@ -144,7 +154,7 @@ class Attachments extends \yii\db\ActiveRecord
     {
         if($this->type)
             return $this->type == self::TYPE_DOCUMENTS;
-        return preg_match('/(' . self::TYPE_DOCUMENTS . ')/i', $this->getMimeType(1));
+        return preg_match('/(' . self::REGEX_DOCUMENT . ')/i', $this->getMimeType(1));
     }
     public function typeVideo()
     {
@@ -152,7 +162,7 @@ class Attachments extends \yii\db\ActiveRecord
     }
 
 	//Получение приложений по id и классу модели
-    public static function getModelAttachment(yii\base\Model $model)
+    public static function getModelAttachment(\yii\base\Model $model)
     {
         if($model->id === NULL)
             return [];

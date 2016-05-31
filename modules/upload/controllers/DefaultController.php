@@ -4,14 +4,12 @@ namespace app\modules\upload\controllers;
 
 
 use Yii;
-use yii\filters\VerbFilter;
 use yii\web\Controller;
 
-use yii\filters\AccessControl;
 use app\modules\upload\models\Attachments;
 use app\modules\upload\helpers\RUploadHandler;
 
-use app\models\User;
+use yii\web\Response;
 
 class DefaultController extends Controller
 {
@@ -71,10 +69,10 @@ class DefaultController extends Controller
 
     public function actionUpload()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $action         = Yii::$app->request->post('action', 'error');
         $model_class    = Yii::$app->request->post('model_class', NULL);
         $model_id       = Yii::$app->request->post('model_id', NULL);
-        $type = '';
 
         ob_start();
         switch ($action) {
@@ -108,8 +106,7 @@ class DefaultController extends Controller
             case 'error':
             default:
                 ob_end_flush();
-                echo 'Error action';
-                return;
+                return ['status' => false, 'error' => 'Error action'];
         }
         $files = ob_get_clean();
         ob_end_clean();
@@ -124,7 +121,6 @@ class DefaultController extends Controller
                 $attachment = new Attachments();
                 $attachment->model_class = $model_class;
                 $attachment->model_id = $model_id;
-                $attachment->type = $type;
                 $attachment->attachment = $file;
                 if($attachment->save()) {
                     $attachments[] = $attachment->toHash();
@@ -133,8 +129,7 @@ class DefaultController extends Controller
                     $attachments[] = $attachment->getErrors();
                 }
             }
-        echo json_encode($attachments, JSON_FORCE_OBJECT);
-
+        return $attachments;
     }
 
     public function actionDelete()

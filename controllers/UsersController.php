@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\BaseController;
+use app\components\events\EventRegistation;
 use app\models\LoginForm;
 use Yii;
 use app\models\Users;
@@ -69,18 +70,12 @@ class UsersController extends BaseController
         $model->scenario = 'create';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if(Yii::$app->user->isGuest){
-                $login = new LoginForm();
-                $login->username = $model->username;
-                $login->password = $model->password;
-                if($login->login()){
-                    if(Yii::$app->request->cookies->has('redirect')){
-                        return $this->redirect([Yii::$app->request->cookies->getValue('redirect')]);
-                    }
-                }
-                return $this->redirect(['/']);
-            } else {
+            (new EventRegistation($model->getPrimaryKey(), $model->username))->trigger();
+            if(!Yii::$app->user->isGuest){
                 return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $this->setSuccessFlash('reg_ok', 'Регистация прошла успешно');
+                return $this->redirect(['/site/index']);
             }
         } else {
             return $this->render('create', [
@@ -119,6 +114,23 @@ class UsersController extends BaseController
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionCabinet()
+    {
+        $model = $this->findModel(Yii::$app->user->id);
+        $model->setScenario('profile');
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->setSuccessFlash('profile_update', 'Профиль сохранен');
+            return $this->redirect(['cabinet',
+                'model' => $model
+            ]);
+        } else {
+            return $this->render('cabinet', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
