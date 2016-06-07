@@ -1,6 +1,7 @@
 <?php
 
 use app\components\basic\Html;
+use kartik\date\DatePicker;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -26,8 +27,28 @@ $this->params['breadcrumbs'][] = $this->title;
             'userName',
             'name',
             'description:ntext',
-            'create_at',
-
+            [
+                'attribute' => 'create_at',
+                'filter' => DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'start_create',
+                    'attribute2' => 'end_create',
+                    'type' => DatePicker::TYPE_RANGE,
+                    'separator' => '-',
+                    'pluginOptions' => ['format' => 'yyyy-mm-dd'],
+                ])
+            ],
+            [
+                'attribute' => 'max_at',
+                'filter' => DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'start_max',
+                    'attribute2' => 'end_max',
+                    'type' => DatePicker::TYPE_RANGE,
+                    'separator' => '-',
+                    'pluginOptions' => ['format' => 'yyyy-mm-dd'],
+                ])
+            ],
             [
                 'class' => 'app\components\basic\ActionColumn',
                 'contentOptions' => ['style' => 'width:70px']

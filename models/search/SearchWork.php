@@ -2,16 +2,16 @@
 
 namespace app\models\search;
 
-use app\controllers\NotificationsController;
+use app\controllers\WorkController;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Notifications;
+use app\models\Work;
 
 /**
- * SearchNotifications represents the model behind the search form about `app\models\Notifications`.
+ * SearchWork represents the model behind the search form about `app\models\Work`.
  */
-class SearchNotifications extends Notifications
+class SearchWork extends Work
 {
     /**
      * @inheritdoc
@@ -19,9 +19,8 @@ class SearchNotifications extends Notifications
     public function rules()
     {
         return [
-            [['is_read'], 'default', 'value' => self::READ_NO, 'skipOnEmpty' => true],
-            [['id', 'user_id', 'is_read'], 'integer'],
-            [['message', 'create_at'], 'safe'],
+            [['id', 'insurance_id', 'user_id'], 'integer'],
+            [['name', 'description', 'create_at', 'done_at', 'max_at'], 'safe'],
         ];
     }
 
@@ -43,15 +42,12 @@ class SearchNotifications extends Notifications
      */
     public function search($params)
     {
-        $query = Notifications::find();
+        $query = Work::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'defaultOrder' => ['create_at' => SORT_DESC]
-            ]
         ]);
 
         $this->load($params);
@@ -66,15 +62,18 @@ class SearchNotifications extends Notifications
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'is_read' => $this->is_read,
+            'insurance_id' => $this->insurance_id,
             'create_at' => $this->create_at,
+            'done_at' => $this->done_at,
+            'max_at' => $this->max_at,
         ]);
 
-        if(!Yii::$app->user->can(NotificationsController::PERMISSION_INDEX_ALL)){
+        if(!Yii::$app->user->can(WorkController::PERMISSION_UPDATE_ALL)){
             $query->andWhere(['user_id' => Yii::$app->user->id]);
         }
 
-        $query->andFilterWhere(['like', 'message', $this->message]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

@@ -2,6 +2,7 @@
 
 use app\models\Users;
 use app\components\basic\Html;
+use kartik\date\DatePicker;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -13,11 +14,21 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->dropdownList(Users::getListByRoles([Users::ROLE_LAWYER])) ?>
+    <?php if (Yii::$app->user->can('BasicInsuranceUpdateAll')): ?>
+        <?= $form->field($model, 'user_id')->dropdownList(Users::getListByRoles([Users::ROLE_LAWYER])) ?>
+    <?php endif; ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'max_at')->widget(DatePicker::classname(), [
+        'options' => ['placeholder' => 'Введите дату окончания'],
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'yyyy-mm-dd',
+        ]
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

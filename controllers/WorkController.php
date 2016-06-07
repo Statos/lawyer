@@ -2,18 +2,20 @@
 
 namespace app\controllers;
 
+use app\components\BaseController;
 use Yii;
 use app\models\Work;
-use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\models\search\SearchWork;
+use yii\db\Expression;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * WorkController implements the CRUD actions for Work model.
  */
-class WorkController extends Controller
+class WorkController extends BaseController
 {
+    const PERMISSION_UPDATE_ALL = 'BasicWorkUpdateAll';
     /**
      * @inheritdoc
      */
@@ -35,11 +37,11 @@ class WorkController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Work::find(),
-        ]);
+        $searchModel = new SearchWork();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -64,6 +66,7 @@ class WorkController extends Controller
     public function actionCreate()
     {
         $model = new Work();
+        $model->user_id = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -93,6 +96,16 @@ class WorkController extends Controller
         }
     }
 
+    public function actionDone($id)
+    {
+        $model = $this->findModel($id);
+        $model->done_at = new Expression('NOW()');
+        $model->update(false, ['done_at']);
+
+        $this->setSuccessFlash('work_update', 'Дело выполнено');
+        $this->redirect(['index']);
+    }
+
     /**
      * Deletes an existing Work model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -115,7 +128,12 @@ class WorkController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Work::findOne($id)) !== null) {
+        if(Yii::$app->user->can(self::PERMISSION_UPDATE_ALL)){
+            $model = Work::findOne($id);
+        } else {
+            $model = Work::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
+        }
+        if ($model !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

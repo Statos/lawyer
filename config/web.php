@@ -53,6 +53,9 @@ $config = [
         'upload' => [
             'class' => 'app\modules\upload\UploadModule'
         ],
+        'comments' => [
+            'class' => 'app\modules\comments\CommentsModule'
+        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
         ]

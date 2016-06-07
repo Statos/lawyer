@@ -68,7 +68,7 @@ class SiteController extends BaseController
             $model->getUser()->updateOnline();
             (new EventLogin($model->getUser()->id, $model->username))->trigger();
             //return $this->goBack();
-            return $this->render('about');
+            return $this->redirect(['about']);
         }
         return $this->render('login', [
             'model' => $model,

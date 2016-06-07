@@ -3,11 +3,13 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "work".
  *
  * @property integer $id
+ * @property integer $user_id
  * @property string $name
  * @property string $description
  * @property integer $insurance_id
@@ -16,10 +18,10 @@ use Yii;
  * @property string $max_at
  *
  * @property Insurance $insurance
- * @property DataAttachments $id0
  */
 class Work extends \yii\db\ActiveRecord
 {
+    public $date_diff;
     /**
      * @inheritdoc
      */
@@ -50,6 +52,7 @@ class Work extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'user_id' => 'Пользователь',
             'name' => 'Заголовок',
             'description' => 'Описание',
             'insurance_id' => 'Страховой случай',
@@ -70,8 +73,24 @@ class Work extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAttachments()
+    public function getUser()
     {
-        return $this->hasOne(DataAttachments::className(), ['model_id' => 'id']);
+        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
+
+    public function getUserName()
+    {
+        return $this->user ? $this->user->username : false;
+    }
+
+    public function isDone()
+    {
+        return !!$this->done_at;
+    }
+
+    public function getInsuranceList()
+    {
+        $data = Insurance::find()->where(['user_id' => $this->user_id]);
+        return ArrayHelper::map($data->all(), 'id', 'name');
     }
 }

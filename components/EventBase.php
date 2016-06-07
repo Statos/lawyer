@@ -18,7 +18,13 @@ abstract class EventBase
             return [];
         }
         if(is_array($this->to)){
-            return array_keys(Users::getListByRoles($this->to));
+            $ids = [];
+            foreach($this->to as $id){
+                if(is_numeric($id)) {
+                    $ids[] = $id;
+                }
+            }
+            return array_merge($ids, array_keys(Users::getListByRoles($this->to)));
         } elseif(is_numeric($this->to)){
             return [$this->to];
         } elseif(is_string($this->to)){

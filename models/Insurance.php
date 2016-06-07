@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\events\EventInsuranceCreate;
 use Yii;
 
 /**
@@ -12,6 +13,7 @@ use Yii;
  * @property string $name
  * @property string $description
  * @property string $create_at
+ * @property string $max_at
  *
  * @property Users $user
  * @property DataAttachments $id0
@@ -19,6 +21,7 @@ use Yii;
  */
 class Insurance extends \yii\db\ActiveRecord
 {
+    public $date_diff;
     /**
      * @inheritdoc
      */
@@ -36,10 +39,10 @@ class Insurance extends \yii\db\ActiveRecord
             [['user_id', 'name', 'description'], 'required'],
             [['user_id'], 'integer'],
             [['description'], 'string'],
-            [['create_at'], 'safe'],
+            [['create_at', 'max_at'], 'safe'],
             [['name'], 'string', 'max' => 128],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['id'], 'exist', 'skipOnError' => true, 'targetClass' => DataAttachments::className(), 'targetAttribute' => ['id' => 'model_id']],
+            //[['id'], 'exist', 'skipOnError' => true, 'targetClass' => DataAttachments::className(), 'targetAttribute' => ['id' => 'model_id']],
         ];
     }
 
@@ -55,7 +58,16 @@ class Insurance extends \yii\db\ActiveRecord
             'name' => 'Название',
             'description' => 'Описание',
             'create_at' => 'Дата создания',
+            'max_at' => 'Назначено до',
         ];
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if($insert || isset($changedAttributes['user_id'])){
+            (new EventInsuranceCreate($this->user_id, $this->id, $this->name))->trigger();
+        }
     }
 
     /**
@@ -69,14 +81,6 @@ class Insurance extends \yii\db\ActiveRecord
     public function getUserName()
     {
         return $this->user ? $this->user->username : false;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAttachments()
-    {
-        return $this->hasOne(DataAttachments::className(), ['model_id' => 'id']);
     }
 
     /**

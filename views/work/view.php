@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\comments\widgets\CommentsWidget;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -37,5 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'max_at',
         ],
     ]) ?>
+
+    <?php echo CommentsWidget::widget([
+        'model' => $model,
+        'options' => [
+            'upload' => false,
+        ]
+    ]); ?>
 
 </div>

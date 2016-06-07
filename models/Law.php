@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\events\EventLaw;
 use app\modules\upload\models\Attachments;
 use Yii;
 
@@ -35,6 +36,12 @@ class Law extends \yii\db\ActiveRecord
             [['number', 'name', 'description'], 'string'],
             [['create_at'], 'safe'],
         ];
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        (new EventLaw($insert, $this->id, $this->name))->trigger();
     }
 
     /**

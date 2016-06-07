@@ -18,6 +18,7 @@ class m151216_060100_add_users extends Migration
 
     public function safeUp()
     {
+        return true;
         $authManager = Yii::$app->authManager;
 
         foreach($this->users as $user) {
@@ -56,6 +57,7 @@ class m151216_060100_add_users extends Migration
 
     public function safeDown()
     {
+        return true;
         $authManager = Yii::$app->authManager;
 
         foreach($this->users as $user) {

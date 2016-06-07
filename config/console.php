@@ -27,6 +27,12 @@ $config = [
             ],
         ],
         'db' => $db,
+        'urlManager' => [
+            'baseUrl' => '',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            //'suffix' => '/', // все урл заканчиваются на /
+        ],
     ],
     'params' => $params,
     /*

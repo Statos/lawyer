@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\components\events\EventUserBlock;
+use app\components\events\EventUserDelete;
 use app\modules\upload\models\Attachments;
 use Exception;
 use Yii;
@@ -103,13 +105,18 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
                 //todo logs
             }
         }
+        if(!$this->isNewRecord){
+            if($this->status == self::STATUS_DISABLED){
+                (new EventUserBlock($this->id, $this->username))->trigger();
+            }
+        }
     }
 
     public function afterDelete()
     {
         $authManager = Yii::$app->authManager;
         $authManager->revokeAll($this->id);
-        //todo logs
+        (new EventUserDelete($this->id, $this->username))->trigger();
     }
 
     public function getId()

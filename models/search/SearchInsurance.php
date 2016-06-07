@@ -13,6 +13,11 @@ use app\models\Insurance;
  */
 class SearchInsurance extends Insurance
 {
+    public $start_max;
+    public $end_max;
+
+    public $start_create;
+    public $end_create;
     /**
      * @inheritdoc
      */
@@ -20,7 +25,8 @@ class SearchInsurance extends Insurance
     {
         return [
             [['id', 'user_id'], 'integer'],
-            [['name', 'description', 'create_at'], 'safe'],
+            [['name', 'description'], 'safe'],
+            [['start_create', 'end_create', 'start_max', 'end_max'], 'safe'],
         ];
     }
 
@@ -62,8 +68,13 @@ class SearchInsurance extends Insurance
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'create_at' => $this->create_at,
         ]);
+
+        $query->andFilterWhere(['>', 'max_at', $this->start_max]);
+        $query->andFilterWhere(['<', 'max_at', $this->end_max]);
+
+        $query->andFilterWhere(['>', 'create_at', $this->start_create]);
+        $query->andFilterWhere(['<', 'create_at', $this->end_create]);
 
         if(!Yii::$app->user->can(InsuranceController::PERMISSION_UPDATE_ALL)){
             $query->andWhere(['user_id' => Yii::$app->user->id]);
@@ -71,6 +82,8 @@ class SearchInsurance extends Insurance
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description]);
+
+
 
         return $dataProvider;
     }

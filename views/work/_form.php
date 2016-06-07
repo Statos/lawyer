@@ -17,12 +17,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'insurance_id')->textInput() ?>
+    <?= $form->field($model, 'insurance_id')->dropdownList($model->getInsuranceList(), [
+        'prompt' => '',
+    ]) ?>
 
     <?= $form->field($model, 'max_at')->widget(DatePicker::classname(), [
         'options' => ['placeholder' => 'Введите дату окончания'],
         'pluginOptions' => [
-            'autoclose'=>true
+            'autoclose'=>true,
+            'format' => 'yyyy-mm-dd',
         ]
     ]); ?>
 

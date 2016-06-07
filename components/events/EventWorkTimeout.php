@@ -1,0 +1,24 @@
+<?php
+
+namespace app\components\events;
+
+use app\components\EventBase;
+use yii\helpers\Html;
+
+class EventWorkTimeout extends EventBase
+{
+    public function __construct($user_id, $id, $name, $day)
+    {
+        $this->to = $user_id;
+        $this->message = 'До окончания вашего дела осталось:'
+            . self::convertDay($day)
+            . Html::a($name, ['/work/view' , 'id' => $id]);
+    }
+
+    public static function convertDay($day)
+    {
+        if($day > 4) return $day . 'Дней';
+        if($day > 1) return $day . 'Дня';
+        return $day . 'День';
+    }
+}
