@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\BaseController;
+use app\components\ExcelWriter;
 use Yii;
 use app\models\Insurance;
 use app\models\search\SearchInsurance;
@@ -105,6 +106,24 @@ class InsuranceController extends BaseController
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionExcel()
+    {
+      $excel = new ExcelWriter(Yii::$app->security->generateRandomString(8) . '.xls');
+      $excel->writeLine(["User","Name","Body","Date start","Date end"]);
+      $models = (new SearchInsurance())->search([])->getModels();
+      foreach($models as $model){
+        $excel->writeLine([
+          $model->userName,
+          $model->name,
+          $model->description,
+          $model->create_at,
+          $model->max_at,
+        ]);
+      }
+      $excel->close();
+	  
     }
 
     /**

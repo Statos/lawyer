@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        Страница о нас, о кондитерской Cake&Cook
+      Сайт удаленнной работы юристов ОАО "Надежда"
     </p>
 
 </div>

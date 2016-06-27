@@ -3,17 +3,18 @@
 use app\components\traits\PermissionMigration;
 use yii\db\Migration;
 
-class m160520_173814_init_permission extends Migration
+class m160521_173814_tables extends Migration
 {
     public function safeUp()
     {
+      return true;
       Yii::$app->db->createCommand("
         CREATE TABLE IF NOT EXISTS `data_attachments` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `model_class` varchar(32) NOT NULL,
           `model_id` int(11) DEFAULT NULL,
           `type` varchar(10) DEFAULT NULL,
-          `default` int(11) DEFAULT '0' COMMENT 'Для определения логотипа у News и Infosys',
+          `default` int(11) DEFAULT '0',
           `attachment` text NOT NULL,
           `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
           PRIMARY KEY (`id`),
@@ -104,6 +105,7 @@ class m160520_173814_init_permission extends Migration
           CONSTRAINT `FK_work_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
       ");
+      return true;
     }
 
     public function safeDown()
@@ -115,5 +117,6 @@ class m160520_173814_init_permission extends Migration
       $this->dropTable('insurance');
       $this->dropTable('data_comments');
       $this->dropTable('data_attachments');
+      return true;
     }
 }

@@ -8,7 +8,7 @@ $this->title = 'Lawyer';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">123</div>
+    <div class="jumbotron">Сайт удаленнной работы юристов ОАО "Надежда"</div>
 
 </div>
 
