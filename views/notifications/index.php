@@ -40,7 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function($model){ return $model->userName; }
                 ]
                 : ['visible' => false],
-            'message:ntext',
+            [
+                'attribute' => 'message',
+                'format' => 'html'
+            ],
             [
                 'attribute' => 'is_read',
                 'format' => 'html',
