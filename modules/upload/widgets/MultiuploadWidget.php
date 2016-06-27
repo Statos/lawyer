@@ -112,6 +112,7 @@ class MultiuploadWidget extends UploadWidget
 
                     var delete_button = '<div class=\"delete-button\" onclick=\"remove_attachment(' + data.result[0].id + ');\">&times</div>';
                     if ( data.result[0].type == '" . Attachments::TYPE_IMAGES . "'){
+                        var img = data.result[0].attachment;
                         var img_src = img.titleUrl ? img.titleUrl : img.url;
                         var new_img = '<img src=\"' + img_src + '\" width=\"" . $this->options['width_img'] . "\">';
                         var new_block = '<div id=\"upload-img-' + data.result[0].id + '\" class=\"upload-img\" style=\"display:none\">' + delete_button + new_img + '</div>';

@@ -67,7 +67,7 @@ $this->registerJs($js);
 
 <span class="answer-activate main btn" style="display: none; clear: both; float: none; margin-bottom: 10px">Ответить</span>
 <div id="default-comment-form" class="comment-form">
-    <div class="c-avatar" style="background-image: url(<?php //echo Yii::$app->user->identity->photo ;?>)"></div>
+    <div class="c-avatar" style="background-image: url(<?= Yii::$app->user->identity->avatarUrl ;?>)"></div>
     <div class="c-leave">
         <div id="add-status" class="add-status"></div>
         <?php
@@ -106,14 +106,7 @@ $this->registerJs($js);
 
             <div style="float:none;clear:both;">
                 <?php echo $form->field($model, 'attachment')->widget(MultiuploadWidget::className(), ['options'=>[
-                    'width_img' => '100%',
                     'ajax_options' => ['action'=>'comment-attachment'],
-                    'file_button' => [
-                        'button_class' => 'btn btn-info'
-                    ],
-                    'progress_bar' => [
-                        'style'=>'display:none'
-                    ]
                 ]]); ?>
             </div>
 

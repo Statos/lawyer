@@ -20,14 +20,14 @@ if(isset($models))
                 <?php foreach($comment->getAttach() as $attach): ?>
                     <?php if($attach->typeImages()): ?>
                     <a class="fancybox ajax" rel="gallery_id-<?=$comment->id ?>" href="<?=$attach->getUrl() ?>" onclick="fancyBox(this);return false;">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <img src="<?=$attach->getThumbUrl() ?>">
                         </div>
                     </a>
                     <?php elseif($attach->typeDocuments()): ?>
                     <a class="noajax" href="<?=$attach->getUrl() ?>">
-                        <div class="col-md-1">
-                            <img src="/template/front/img/filetypes-icons/text-file-icon.png" width=64/>
+                        <div class="col-md-3">
+                            <img src="/images/text-file-icon.png" width=64/>
                         </div>
                     </a>
                     <?php endif; ?>

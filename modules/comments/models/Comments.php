@@ -101,10 +101,7 @@ class Comments extends \yii\db\ActiveRecord
     public function getLogin()
     {
         $u = $this->author;
-//        if ($u->admin)
-//            return "Специалист техподдержки";
-
-        return $u ? $u->name : '';
+        return $u ? $u->username : '';
     }
 
     public function getAttach()
@@ -121,10 +118,7 @@ class Comments extends \yii\db\ActiveRecord
     public function getAuthorPhoto()
     {
         $u = $this->author;
-//        if ($u->admin)
-//            return "nope";
-
-        return $u->getAvatarImage();
+        return $u->getAvatarUrl();
     }
 
     public static function getTree($id, $class, $counter = true)
