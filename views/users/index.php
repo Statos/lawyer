@@ -1,6 +1,7 @@
 <?php
 
 use app\components\basic\Html;
+use app\models\User;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -24,9 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Аватар',
                 'format' => 'html',
-                'value' => function($model){ return Html::img($model->avatarUrl, ['class' => 'img-circle index-avatar']);  },
+                'value' => function ($model) {
+                    return Html::img($model->avatarUrl, ['class' => 'img-circle index-avatar']);
+                },
             ],
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => fn(User $user) => $user->getStatusName()
+            ],
             'username',
             'email:email',
             'create_at',

@@ -4,7 +4,7 @@ use app\components\basic\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Users */
+/* @var $model app\models\User */
 
 $this->title = Yii::$app->user->isGuest ? 'Регистрация' : 'Создание пользователя';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];

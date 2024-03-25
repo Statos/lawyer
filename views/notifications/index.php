@@ -1,7 +1,7 @@
 <?php
 
 use app\controllers\NotificationsController;
-use app\models\Users;
+use app\models\User;
 use app\components\basic\Html;
 use yii\grid\GridView;
 
@@ -25,20 +25,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'tableOptions' => ['class' => 'table table-bordered'],
-        'rowOptions' => function ($model, $key, $index, $grid){
-            if(!$model->is_read) return ['class' => 'bg-info']; return [];
+        'rowOptions' => function ($model, $key, $index, $grid) {
+            if (!$model->is_read) return ['class' => 'bg-info'];
+            return [];
         },
         'columns' => [
             Yii::$app->user->can(NotificationsController::PERMISSION_INDEX_ALL) ? 'id' : ['visible' => false],
             Yii::$app->user->can(NotificationsController::PERMISSION_INDEX_ALL)
                 ? [
-                    'attribute' => 'user_id',
-                    'filter' => Html::activeDropdownList($searchModel, 'user_id', Users::getListAll(), [
-                        'prompt' => 'Все',
-                        'class' => 'form-control'
-                    ]),
-                    'value' => function($model){ return $model->userName; }
-                ]
+                'attribute' => 'user_id',
+                'filter' => Html::activeDropdownList($searchModel, 'user_id', User::getListAll(), [
+                    'prompt' => 'Все',
+                    'class' => 'form-control'
+                ]),
+                'value' => function ($model) {
+                    return $model->userName;
+                }
+            ]
                 : ['visible' => false],
             [
                 'attribute' => 'message',
@@ -47,14 +50,19 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'is_read',
                 'format' => 'html',
-                'value' => function($model){ return $model->getReadIcon(); },
+                'value' => function ($model) {
+                    return $model->getReadIcon();
+                },
                 'filter' => Html::activeDropdownList($searchModel, 'is_read', $searchModel->getReadStatuses(), [
                     'prompt' => 'Все',
                     'class' => 'form-control'
                 ]),
             ],
             'create_at',
-            ['class' => 'app\components\basic\ActionColumn'],
+            [
+                'class' => 'app\components\basic\ActionColumn',
+                'template' => '{view}'
+            ],
         ],
     ]); ?>
 

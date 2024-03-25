@@ -28,25 +28,24 @@ use yii\helpers\ArrayHelper;
  * @property Insurance[] $insurances
  * @property Attachments $avatar
  */
-class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class User extends \mdm\admin\models\User
 {
     public $repeat_password;
     public $password;
     public $set_auth = false;
 
-    const STATUS_NEW = 'new';
-    const STATUS_ACTIVE = 'active';
-    const STATUS_DISABLED = 'disabled';
+    const STATUS_NEW = 1;
 
     const ROLE_CHIEF = 'chief';
     const ROLE_LAWYER = 'lawyer';
     const ROLE_ADMINISTRATOR = 'administrator';
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'users';
+        return 'user';
     }
 
     /**
@@ -56,15 +55,19 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             [['username', 'email', 'phone', 'fio'], 'required', 'on' => 'default'],
+            ['username', 'string', 'min' => 2, 'max' => 255],
             [['phone', 'fio'], 'required', 'on' => 'profile'],
             [['password'], 'required', 'on' => 'create'],
-            [['status', 'fio'], 'string'],
-            ['repeat_password', 'compare', 'compareAttribute'=>'password'],
-            [['username'], 'unique'],
+            [['fio'], 'string'],
+            ['status', 'in', 'range' => array_keys(self::getStatuses())],
+            ['repeat_password', 'compare', 'compareAttribute' => 'password'],
+            ['username', 'unique', 'message' => 'Данный логин уже занят'],
+            ['email', 'unique', 'message' => 'Данный email уже зарегистрирован'],
+            ['email', 'email'],
             [['avatar_id'], 'integer'],
             [['create_at', 'online_at'], 'safe'],
             [['username', 'password', 'email', 'phone'], 'string', 'max' => 64],
-            [['avatar_id'], 'exist', 'skipOnError' => true, 'targetClass' => Attachments::className(), 'targetAttribute' => ['avatar_id' => 'id']],
+            [['avatar_id'], 'exist', 'skipOnError' => true, 'targetClass' => Attachments::class, 'targetAttribute' => ['avatar_id' => 'id']],
         ];
     }
 
@@ -88,72 +91,6 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
-    public function beforeSave($insert)
-    {
-        if($this->isNewRecord) {
-            $this->password_hash = Yii::$app->security->generatePasswordHash($this->password);
-        }
-        return true;
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        if($this->set_auth) {
-            $authManager = Yii::$app->authManager;
-            $authRole = $authManager->getRole('lawyer');
-            if (!$authManager->assign($authRole, $this->id)) {
-                //todo logs
-            }
-        }
-        if(!$this->isNewRecord){
-            if($this->status == self::STATUS_DISABLED){
-                (new EventUserBlock($this->id, $this->username))->trigger();
-            }
-        }
-    }
-
-    public function afterDelete()
-    {
-        $authManager = Yii::$app->authManager;
-        $authManager->revokeAll($this->id);
-        (new EventUserDelete($this->id, $this->username))->trigger();
-    }
-
-    public function getId()
-    {
-        return $this->getPrimaryKey();
-    }
-
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
-
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
-
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new Exception('"findIdentityByAccessToken" is not implemented.');
-    }
-
-    public static function findIdentity($id)
-    {
-        return static::findOne(['id' => $id]);
-    }
-
-    public static function findByUsername($username)
-    {
-        return static::findOne(['username' => $username]);
-    }
-
-    public function validatePassword($password)
-    {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
-    }
-
     public function updateOnline()
     {
         $this->online_at = new Expression('NOW()');
@@ -165,7 +102,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getDataComments()
     {
-        return $this->hasMany(DataComments::className(), ['user_id' => 'id']);
+        return $this->hasMany(DataComments::class, ['user_id' => 'id']);
     }
 
     /**
@@ -173,7 +110,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getInsurances()
     {
-        return $this->hasMany(Insurance::className(), ['user_id' => 'id']);
+        return $this->hasMany(Insurance::class, ['user_id' => 'id']);
     }
 
     /**
@@ -181,7 +118,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getAvatar()
     {
-        return $this->hasOne(Attachments::className(), ['id' => 'avatar_id']);
+        return $this->hasOne(Attachments::class, ['id' => 'avatar_id']);
     }
 
     public function getAvatarUrl()
@@ -201,10 +138,15 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public static function getStatuses()
     {
         return [
-            self::STATUS_DISABLED => 'Заблокирован',
+            self::STATUS_INACTIVE => 'Заблокирован',
             self::STATUS_NEW => 'Новый',
             self::STATUS_ACTIVE => 'Активный',
         ];
+    }
+
+    public function getStatusName()
+    {
+        return self::getStatuses()[$this->status] ?? $this->status;
     }
 
     public static function getListByRoles($roles = [])

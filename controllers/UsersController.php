@@ -6,7 +6,7 @@ use app\components\BaseController;
 use app\components\events\EventRegistation;
 use app\models\LoginForm;
 use Yii;
-use app\models\Users;
+use app\models\User;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -23,7 +23,7 @@ class UsersController extends BaseController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -38,7 +38,7 @@ class UsersController extends BaseController
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Users::find(),
+            'query' => User::find(),
         ]);
 
         return $this->render('index', [
@@ -65,7 +65,7 @@ class UsersController extends BaseController
      */
     public function actionCreate()
     {
-        $model = new Users();
+        $model = new User();
         $model->set_auth = true;
         $model->scenario = 'create';
 
@@ -137,12 +137,12 @@ class UsersController extends BaseController
      * Finds the Users model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Users the loaded model
+     * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Users::findOne($id)) !== null) {
+        if (($model = User::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

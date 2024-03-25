@@ -5,7 +5,7 @@ use app\modules\upload\widgets\AvatarWidget;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Users */
+/* @var $model app\models\User */
 /* @var $form yii\widgets\ActiveForm */
 $this->title = 'Обновление профиля';
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-md-4">
-            <?php echo $form->field($model, 'avatar_id')->widget(AvatarWidget::className()); ?>
+            <?php echo $form->field($model, 'avatar_id')->widget(AvatarWidget::class); ?>
         </div>
         <div class="col-md-8">
 

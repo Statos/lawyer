@@ -9,7 +9,7 @@ trait PermissionMigration
     /** @var  \yii\rbac\ManagerInterface */
     public $authManager;
     public $moduleName;
-    public $permissions;
+    public $permissions = [];
 
     protected $roles;
     protected $rules;

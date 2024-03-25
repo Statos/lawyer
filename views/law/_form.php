@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
             'model' => $model,
             'attribute' => 'publicate_at',
             'language' => 'ru',
-            'options' => ['placeholder' => 'Enter publication date ...'],
+            'options' => ['placeholder' => 'Введите дату издания ...'],
             'pluginOptions' => [
                 'format' => 'yyyy-mm-dd',
                 'autoclose' => true,
@@ -36,13 +36,13 @@ use yii\widgets\ActiveForm;
         ]); ?>
     </div>
 
-    <?php echo $form->field($model, 'attach')->widget(MultiuploadWidget::className(), [ 'options' => [
+    <?php echo $form->field($model, 'attach')->widget(MultiuploadWidget::class, [ 'options' => [
         'ajax_options' => ['action' => 'comment-attachment']
     ]]); ?>
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Обновить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

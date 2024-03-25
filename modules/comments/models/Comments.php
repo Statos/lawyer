@@ -2,7 +2,7 @@
 
 namespace app\modules\comments\models;
 
-use app\models\Users;
+use app\models\User;
 use app\modules\upload\models\Attachments;
 use Yii;
 
@@ -85,11 +85,13 @@ class Comments extends \yii\db\ActiveRecord
 
     public function getAuthor()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
     public function getDate()
     {
+        return date('Y-m-d H:i:s', strtotime($this->created));
+
         setlocale(LC_ALL, 'rus');
         setlocale(LC_ALL, 'ru_RU.UTF8');
         $x = $this->created;

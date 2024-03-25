@@ -2,7 +2,6 @@
 
 namespace app\modules\comments\controllers;
 
-use app\modules\api\actions\ApiAction;
 use app\modules\comments\actions\CommentCreateAction;
 use Yii;
 use yii\web\Controller;
@@ -15,7 +14,7 @@ class DefaultController extends Controller
     {
         return [
             'create' => [
-                'class' => CommentCreateAction::className(),
+                'class' => CommentCreateAction::class,
             ],
 
         ];

@@ -17,7 +17,7 @@ class SiteController extends BaseController
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'only' => ['logout'],
                 'rules' => [
                     [
@@ -28,7 +28,7 @@ class SiteController extends BaseController
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -51,10 +51,7 @@ class SiteController extends BaseController
 
     public function actionIndex()
     {
-
-        return $this->render('index', [
-
-        ]);
+        return $this->render('index');
     }
 
     public function actionLogin()

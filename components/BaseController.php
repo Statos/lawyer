@@ -16,6 +16,7 @@ class BaseController extends Controller
 
     public function init()
     {
+        parent::init();
         \Yii::$app->on(EventBase::EVENT_DB_CAPTURED, function(EventObject $eventObject) {
             /** @var Catcher $catcher */
             $catcher = \Yii::$container->get('app\components\Catcher');
@@ -40,15 +41,18 @@ class BaseController extends Controller
 
     public function beforeAction($action)
     {
-        /** @var InlineAction $action */
-        if (!parent::beforeAction($action)) return false;
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
 
-        if (!Yii::$app->user->isGuest) Yii::$app->user->identity->updateOnline();
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->user->identity->updateOnline();
+        }
 
         $reflectionClass = new \ReflectionClass($this);
         $className = str_replace('Controller', '', $reflectionClass->getShortName());
         $permission = BaseInflector::camelize($this->module->id . '_' . $className . '_' . $action->id);
-        //var_dump($permission);exit;
+
         if ($this->allowAll || Yii::$app->user->can($permission)) return true;
 
         $errorMessage = 'Доступ запрещен';

@@ -1,7 +1,7 @@
 {
     "name": "yiisoft/yii2-app-basic",
-    "description": "Yii 2 Basic Project Template",
-    "keywords": ["yii2", "framework", "basic", "project template"],
+    "description": "Student Lawyer Project",
+    "keywords": ["yii2", "framework", "study"],
     "homepage": "http://www.yiiframework.com/",
     "type": "project",
     "license": "BSD-3-Clause",
@@ -14,16 +14,21 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": ">=2.0.5",
-        "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*",
-        "kartik-v/yii2-widget-select2": "@dev",
+        "php": "7.4.*",
+        "ext-gd": "*",
+        "ext-json": "*",
+
+        "yiisoft/yii2": "2.0.49.3",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "yiisoft/yii2-swiftmailer": "^2.1@dev",
+
+        "mdmsoft/yii2-admin": "~2.0",
+
+        "kartik-v/yii2-widget-select2": "2.1.*",
         "kartik-v/yii2-widget-alert": "*",
         "kartik-v/yii2-widget-growl": "*",
-        "mdmsoft/yii2-admin": "2.x-dev",
         "kartik-v/yii2-widget-datepicker": "@dev",
-        "kartik-v/yii2-field-range": "*"
+        "kartik-v/yii2-field-range": "1.3.1"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
@@ -31,8 +36,18 @@
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
     "config": {
-        "process-timeout": 1800
+        "process-timeout": 1800,
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "kylekatarnls/update-helper": false
+        }
     },
     "scripts": {
         "post-create-project-cmd": [
@@ -51,10 +66,6 @@
             "generateCookieValidationKey": [
                 "config/web.php"
             ]
-        },
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
         }
     }
 }

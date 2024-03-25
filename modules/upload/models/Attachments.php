@@ -25,6 +25,7 @@ class Attachments extends \yii\db\ActiveRecord
 
     const REGEX_IMAGE = 'gif|jpe?g|png';
     const REGEX_DOCUMENT = 'docx?|xlsx?|te?xt|rtf|pdf|plain';
+
     /**
      * @inheritdoc
      */
@@ -89,7 +90,8 @@ class Attachments extends \yii\db\ActiveRecord
         return '/\.(' . $types . ')$/i';
     }
 
-    public function toHash(){
+    public function toHash()
+    {
         return [
             'id' => $this->id,
             'type' => $this->type,
@@ -114,19 +116,19 @@ class Attachments extends \yii\db\ActiveRecord
 
     public function getFancyImg()
     {
-        $data = '<a class="zoom noajax" rel="zoom" href="'.$this->getUrl().'">';
-        $data .= '<img class="many-pic" src="'.$this->getThumbUrl().'"/>';
+        $data = '<a class="zoom noajax" rel="zoom" href="' . $this->getUrl() . '">';
+        $data .= '<img class="many-pic" src="' . $this->getThumbUrl() . '"/>';
         $data .= '</a>';
         return $data;
     }
 
     public function getMimeType($id = NULL)
     {
-        if(!$this->attachment) {
+        if (!$this->attachment) {
             return '';
         }
-        $data = explode('/',$this->attachment->type);
-        if($id !== NULL)
+        $data = explode('/', $this->attachment->type);
+        if ($id !== NULL)
             return isset($data[$id]) ? $data[$id] : false;
         return $data;
     }
@@ -146,51 +148,54 @@ class Attachments extends \yii\db\ActiveRecord
 
     public function typeImages()
     {
-        if($this->type)
+        if ($this->type)
             return $this->type == self::TYPE_IMAGES;
         return preg_match('/(' . self::REGEX_IMAGE . ')/i', $this->getMimeType(1));
     }
+
     public function typeDocuments()
     {
-        if($this->type)
+        if ($this->type)
             return $this->type == self::TYPE_DOCUMENTS;
         return preg_match('/(' . self::REGEX_DOCUMENT . ')/i', $this->getMimeType(1));
     }
+
     public function typeVideo()
     {
         return $this->type == self::TYPE_VIDEO;
     }
 
-	//Получение приложений по id и классу модели
+    //Получение приложений по id и классу модели
     public static function getModelAttachment(\yii\base\Model $model)
     {
-        if($model->id === NULL)
+        if ($model->id === NULL) {
             return [];
+        }
         return Attachments::find()->where([
-            'model_class'=>\yii\helpers\StringHelper::basename(get_class($model)),
-            'model_id'=>$model->id
+            'model_class' => \yii\helpers\StringHelper::basename(get_class($model)),
+            'model_id' => $model->id
         ])->all();
     }
 
-	//Получение приложения по аттрибуту модели, аттрибут int
+    //Получение приложения по аттрибуту модели, аттрибут int
     public static function getAttributeAttachment($id)
     {
-        if($id === NULL)
+        if ($id === NULL)
             return false;
         return Attachments::find()->where([
-            'id'=>$id
+            'id' => $id
         ])->one();
     }
-	
-	//Получение приложений по аттрибуту модели, аттрибут строковый цифры через зяпятую
-	public static function getAttributeAttachments($ids)
+
+    //Получение приложений по аттрибуту модели, аттрибут строковый цифры через зяпятую
+    public static function getAttributeAttachments($ids)
     {
-        if($ids === NULL)
+        if ($ids === NULL)
             return false;
-		if(!is_array($ids))
-			$ids = explode(',', $ids);
+        if (!is_array($ids))
+            $ids = explode(',', $ids);
         return Attachments::find()->where([
-            'id'=>$ids
+            'id' => $ids
         ])->all();
     }
 

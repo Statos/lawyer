@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\upload\widgets\MultiuploadWidget;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы действиетельно хотите удалить?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -36,5 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'create_at',
         ],
     ]) ?>
+
+    <?php echo (new \app\modules\upload\widgets\AttachmentWidget(['model' => $model]))->run() ?>
 
 </div>

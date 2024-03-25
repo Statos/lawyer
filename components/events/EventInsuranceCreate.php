@@ -3,7 +3,7 @@
 namespace app\components\events;
 
 use app\components\EventBase;
-use app\models\Users;
+use app\models\User;
 use yii\helpers\Html;
 
 class EventInsuranceCreate extends EventBase

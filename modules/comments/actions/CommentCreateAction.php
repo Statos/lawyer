@@ -5,58 +5,10 @@ namespace app\modules\comments\actions;
 use app\modules\comments\models\Comments;
 use Yii;
 use yii\base\Action;
-use yii\web\HttpException;
 use yii\web\Response;
-
 
 class CommentCreateAction extends Action
 {
-    const ENV_WEB = 0;
-    const ENV_APP = 1;
-
-    public $env = self::ENV_WEB;
-    public $ajaxOnly = false;
-    public $jsonOnly = false;
-
-    protected function beforeRun()
-    {
-        if(parent::beforeRun()){
-
-            if($this->ajaxOnly){
-                if(!(Yii::$app->request->isAjax || $this->env == self::ENV_APP))
-                    throw new HttpException(405);
-            }
-
-            return true;
-        }
-        return false;
-    }
-
-    public function render($action, $data = NULL)
-    {
-        if(is_array($action) && $data === NULL) {
-            $data = $action;
-            $this->jsonOnly = true;
-        }
-        if(!$this->jsonOnly && $this->env == self::ENV_WEB) {
-            return $this->ajaxOnly ? $this->controller->renderAjax($action, $data) :
-                $this->controller->render($action, $data);
-        }
-        return $this->renderJSON($data);
-    }
-
-    protected function renderJSON($data)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return $data;
-    }
-
-    public function init()
-    {
-        $this->ajaxOnly = true;
-        $this->jsonOnly = true;
-        parent::init();
-    }
 
     public function run()
     {
@@ -67,24 +19,34 @@ class CommentCreateAction extends Action
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $model->children = NULL;
+            $model->refresh();
             $models = [$model];
-            return $this->render([
-                'message'=>'success',
-                'id'=>$model->id,
-                'html'=>$this->controller->renderPartial('@app/modules/comments/widgets/views/_index_item.php', [
+            return $this->renderJSON([
+                'message' => 'success',
+                'id' => $model->id,
+                'html' => $this->controller->renderPartial('@app/modules/comments/widgets/views/_index_item.php', [
                     'models' => $models,
-                    'options'=>[
+                    'options' => [
                         'answers' => false
                     ]
                 ])
             ]);
         } else {
-            return $this->render([
-                'message'=>'error',
-                'error'=>$model->getErrors()
+            return $this->renderJSON([
+                'message' => 'error',
+                'error' => $model->getErrors()
             ]);
         }
 
+    }
+
+    protected function renderJSON($data)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (isset($data['html'])) {
+            $data['html'] = mb_convert_encoding($data['html'], 'UTF-8', 'UTF-8');
+        }
+        return $data;
     }
 
 }

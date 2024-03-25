@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Users;
+use app\models\User;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->dropdownList(Users::getListAll()) ?>
+    <?= $form->field($model, 'user_id')->dropdownList(User::getListAll()) ?>
 
     <?= $form->field($model, 'message')->textarea(['rows' => 6]) ?>
 

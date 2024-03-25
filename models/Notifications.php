@@ -13,7 +13,7 @@ use Yii;
  * @property integer $is_read
  * @property string $create_at
  *
- * @property Users $user
+ * @property User $user
  */
 class Notifications extends \yii\db\ActiveRecord
 {
@@ -37,7 +37,7 @@ class Notifications extends \yii\db\ActiveRecord
             [['user_id', 'is_read'], 'integer'],
             [['message'], 'string'],
             [['create_at'], 'safe'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -81,7 +81,7 @@ class Notifications extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     public function getUserName()

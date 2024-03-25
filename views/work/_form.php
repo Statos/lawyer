@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
         'prompt' => '',
     ]) ?>
 
-    <?= $form->field($model, 'max_at')->widget(DatePicker::classname(), [
+    <?= $form->field($model, 'max_at')->widget(DatePicker::class, [
         'options' => ['placeholder' => 'Введите дату окончания'],
         'pluginOptions' => [
             'autoclose'=>true,

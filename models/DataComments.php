@@ -19,7 +19,7 @@ use Yii;
  * @property integer $likes
  * @property integer $user_id
  *
- * @property Users $user
+ * @property User $user
  */
 class DataComments extends \yii\db\ActiveRecord
 {
@@ -43,7 +43,7 @@ class DataComments extends \yii\db\ActiveRecord
             [['title', 'txt'], 'string'],
             [['model_class'], 'string', 'max' => 32],
             [['attachment'], 'string', 'max' => 256],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -72,6 +72,6 @@ class DataComments extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

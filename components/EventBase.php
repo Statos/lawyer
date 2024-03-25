@@ -2,7 +2,7 @@
 
 namespace app\components;
 
-use app\models\Users;
+use app\models\User;
 use Yii;
 
 abstract class EventBase
@@ -24,11 +24,11 @@ abstract class EventBase
                     $ids[] = $id;
                 }
             }
-            return array_merge($ids, array_keys(Users::getListByRoles($this->to)));
+            return array_merge($ids, array_keys(User::getListByRoles($this->to)));
         } elseif(is_numeric($this->to)){
             return [$this->to];
         } elseif(is_string($this->to)){
-            return array_keys(Users::getListByRoles([$this->to]));
+            return array_keys(User::getListByRoles([$this->to]));
         }
         return [];
     }

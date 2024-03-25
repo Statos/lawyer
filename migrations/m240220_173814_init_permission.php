@@ -3,13 +3,14 @@
 use app\components\traits\PermissionMigration;
 use yii\db\Migration;
 
-class m160520_173814_init_permission extends Migration
+class m240220_173814_init_permission extends Migration
 {
     use PermissionMigration;
 
     public function init()
     {
         parent::init();
+
         $this->authManager = Yii::$app->getAuthManager();
         $this->moduleName = 'Basic';
         $this->permissions = [
@@ -47,6 +48,7 @@ class m160520_173814_init_permission extends Migration
                 ['updateAll', 'Can update Insurance', ['chief']],
                 ['create', 'Can create Insurance', ['chief']],
                 ['delete', 'Can delete Insurance', ['chief']],
+                ['excel', 'Can export to excel', ['lawyer', 'chief']],
             ],
             'Notifications' => [
                 ['index', 'Can view Notifications list', ['lawyer', 'chief', 'administrator']],

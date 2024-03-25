@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m151215_173740_create_roles extends Migration
+class m240220_173740_create_roles extends Migration
 {
     /** @var  \yii\rbac\ManagerInterface */
     private $authManager;

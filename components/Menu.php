@@ -63,7 +63,7 @@ class Menu {
 
     public static function getUserAvatar()
     {
-        /** @var \app\models\Users $userModel */
+        /** @var \app\models\User $userModel */
         if(!Yii::$app->user->isGuest) {
             $userModel = Yii::$app->user->identity;
             return Html::img($userModel->avatarUrl, ['class' => 'img-circle nav-avatar']);

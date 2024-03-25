@@ -76,12 +76,12 @@ class LoginForm extends Model
     public function isActive()
     {
         switch($this->getUser()->status){
-            case Users::STATUS_ACTIVE:
+            case User::STATUS_ACTIVE:
                 return true;
-            case Users::STATUS_NEW:
+            case User::STATUS_NEW:
                 $this->addError('password', 'Пользователь еще не активирован');
                 break;
-            case Users::STATUS_DISABLED:
+            case User::STATUS_INACTIVE:
                 $this->addError('password', 'Пользователь заблокирован');
                 break;
             default:
@@ -94,12 +94,12 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return \app\models\Users|null
+     * @return \app\models\User|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = Users::findByUsername($this->username);
+            $this->_user = User::findByUsername($this->username);
         }
 
         return $this->_user;

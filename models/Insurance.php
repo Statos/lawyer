@@ -15,7 +15,7 @@ use Yii;
  * @property string $create_at
  * @property string $max_at
  *
- * @property Users $user
+ * @property User $user
  * @property DataAttachments $id0
  * @property Work[] $works
  */
@@ -41,7 +41,7 @@ class Insurance extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['create_at', 'max_at'], 'safe'],
             [['name'], 'string', 'max' => 128],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             //[['id'], 'exist', 'skipOnError' => true, 'targetClass' => DataAttachments::className(), 'targetAttribute' => ['id' => 'model_id']],
         ];
     }
@@ -75,7 +75,7 @@ class Insurance extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     public function getUserName()

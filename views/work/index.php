@@ -1,7 +1,7 @@
 <?php
 
 use app\controllers\WorkController;
-use app\models\Users;
+use app\models\User;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Yii::$app->user->can(WorkController::PERMISSION_UPDATE_ALL)
                 ? [
                 'attribute' => 'user_id',
-                'filter' => Html::activeDropdownList($searchModel, 'user_id', Users::getListAll(), [
+                'filter' => Html::activeDropdownList($searchModel, 'user_id', User::getListAll(), [
                     'prompt' => 'Все',
                     'class' => 'form-control'
                 ]),

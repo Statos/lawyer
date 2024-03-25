@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Users;
+use app\models\User;
 use app\components\basic\Html;
 use kartik\date\DatePicker;
 use yii\widgets\ActiveForm;
@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?php if (Yii::$app->user->can('BasicInsuranceUpdateAll')): ?>
-        <?= $form->field($model, 'user_id')->dropdownList(Users::getListByRoles([Users::ROLE_LAWYER])) ?>
+        <?= $form->field($model, 'user_id')->dropdownList(User::getListByRoles([User::ROLE_LAWYER])) ?>
     <?php endif; ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
