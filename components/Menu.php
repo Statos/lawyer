@@ -54,7 +54,7 @@ class Menu {
                 . Html::endForm()
                 . '</li>';
         } else {
-            $data[] = ['label' => 'Регистрация', 'url' => ['/users/create'], 'visible' => true];
+            //$data[] = ['label' => 'Регистрация', 'url' => ['/users/create'], 'visible' => true];
             $data[] = ['label' => 'Вход', 'url' => ['/site/login'], 'visible' => true];
         }
 

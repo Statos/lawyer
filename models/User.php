@@ -71,6 +71,30 @@ class User extends \mdm\admin\models\User
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if ($this->isNewRecord) {
+            $this->setPassword($this->password);
+            $this->generateAuthKey();
+        }
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->set_auth) {
+            $authManager = Yii::$app->authManager;
+            $authRole = $authManager->getRole(self::ROLE_LAWYER);
+            if (!$authManager->assign($authRole, $this->id)) {
+                //todo logs
+            }
+        }
+        if (!$this->isNewRecord && $this->status == self::STATUS_INACTIVE) {
+            (new EventUserBlock($this->id, $this->username))->trigger();
+        }
+        parent::afterSave($insert, $changedAttributes);
+    }
+
     /**
      * @inheritdoc
      */

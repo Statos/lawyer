@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 /* @var $form yii\widgets\ActiveForm */
+
 $this->title = 'Обновление профиля';
 $this->params['breadcrumbs'][] = $this->title;
 

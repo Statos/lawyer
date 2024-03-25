@@ -17,7 +17,7 @@ $config = [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'cache' => 'cache',
+            //'cache' => 'cache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',
